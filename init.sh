@@ -10,3 +10,7 @@ git clone git://github.com/ninja-build/ninja.git && cd ninja
 sudo cp ninja /usr/bin/
 ninja --version
 sudo apt install glances -y
+pip3 install pip -U
+pip3 install angr
+pip3 install git+https://github.com/angr/tracer
+pip3 install git+https://github.com/shellphish/driller
