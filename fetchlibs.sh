@@ -1,5 +1,5 @@
 #!/bin/bash -e
-
+  
 # taken from the QIRA project
 
 sudo apt install debootstrap debian-archive-keyring -y
@@ -8,6 +8,10 @@ sudo apt install debootstrap debian-archive-keyring -y
 DEBOOTSTRAP_DIR=/usr/share/debootstrap
 UBUNTU_KEYRING=/usr/share/keyrings/ubuntu-archive-keyring.gpg
 DEBIAN_KEYRING=/usr/share/keyrings/debian-archive-keyring.gpg
+
+release_num=$(lsb_release -r --short)
+code_name=$(lsb_release -c --short)
+hw_arch=$(uname -m)
 
 if [ ! -d "$DEBOOTSTRAP_DIR" ] || [ ! -f "$DEBIAN_KEYRING" ]; then
   echo "this script requires debootstrap and debian-archive-keyring to be installed"
@@ -61,13 +65,13 @@ mkdir -p bin/fuzzer-libs
 cd bin/fuzzer-libs
 
 LIBS="libc-bin libstdc++6"
-fetcharch armhf ubuntu xenial
-# fetcharch armel debian jessie
-fetcharch powerpc ubuntu xenial
-fetcharch arm64 ubuntu xenial
-fetcharch i386 ubuntu xenial
+fetcharch armhf ubuntu $code_name
+#fetcharch armel ubuntu bionic
+#fetcharch powerpc ubuntu bionic
+fetcharch arm64 ubuntu $code_name
+fetcharch i386 ubuntu $code_name
 # fetcharch mips debian stretch
 # fetcharch mipsel debian stretch
 
-echo "armhf armel powerpc arm64 i386 mips mipsel all done"
+echo "armhf arm64 i386 all done"
 # mini debootstrap 
