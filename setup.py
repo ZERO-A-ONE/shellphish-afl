@@ -23,12 +23,12 @@ AFL_MULTI_CGC_FUZZ  = os.path.join(AFL_MULTI_CGC_INSTALL_PATH)
 
 def _setup_other_arch():
     # revisiting the afl mirrorer repo
-    if not os.path.exists(AFL_CGC_INSTALL_PATH):
+    if not os.path.exists(AFL_UNIX_INSTALL_PATH):
         AFL_CGC_REPO = "https://github.com/AFLplusplus/AFLplusplus"
-        if subprocess.call(['git', 'clone', AFL_CGC_REPO, AFL_CGC_INSTALL_PATH]) != 0:
+        if subprocess.call(['git', 'clone', AFL_CGC_REPO, AFL_UNIX_INSTALL_PATH]) != 0:
             raise LibError("Unable to retrieve afl-cgc")
 
-        if subprocess.call(['make', 'distrib'], cwd=AFL_CGC_INSTALL_PATH) != 0:
+        if subprocess.call(['make', 'distrib'], cwd=AFL_UNIX_INSTALL_PATH) != 0:
             raise LibError("Unable to make afl-cgc")
 
 def _setup_cgc():
