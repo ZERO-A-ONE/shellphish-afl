@@ -1,6 +1,7 @@
 #!/bin/bash -e
   
 # taken from the QIRA project
+# http://archive.ubuntu.com/ubuntu
 
 sudo apt install debootstrap debian-archive-keyring -y
 
@@ -23,6 +24,11 @@ fetcharch() {
   ARCH="$1"
   DISTRO="$2"
   SUITE="$3"
+  
+  echo "$ARCH"
+  echo "$DISTRO"
+  echo "$SUITE"
+
   exec 4>&1
   SHA_SIZE=256
   DEBOOTSTRAP_CHECKSUM_FIELD="SHA$SHA_SIZE"
@@ -42,6 +48,7 @@ fetcharch() {
   if [ $DISTRO == "ubuntu" ]; then
     KEYRING=$UBUNTU_KEYRING
     MIRRORS="$DEF_MIRROR"
+    echo "$DEF_MIRROR"
   elif [ $DISTRO == "debian" ]; then
     KEYRING=$DEBIAN_KEYRING
     MIRRORS="http://ftp.us.debian.org/debian"
