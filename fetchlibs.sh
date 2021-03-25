@@ -2,6 +2,9 @@
 
 # taken from the QIRA project
 
+sudo apt install debootstrap debian-archive-keyring -y
+
+
 DEBOOTSTRAP_DIR=/usr/share/debootstrap
 UBUNTU_KEYRING=/usr/share/keyrings/ubuntu-archive-keyring.gpg
 DEBIAN_KEYRING=/usr/share/keyrings/debian-archive-keyring.gpg
@@ -58,12 +61,13 @@ mkdir -p bin/fuzzer-libs
 cd bin/fuzzer-libs
 
 LIBS="libc-bin libstdc++6"
-fetcharch armhf ubuntu trusty
-fetcharch armel debian jessie
-fetcharch powerpc ubuntu trusty
-fetcharch arm64 ubuntu trusty
-fetcharch i386 ubuntu trusty
-fetcharch mips debian stretch
-fetcharch mipsel debian stretch
+fetcharch armhf ubuntu xenial
+# fetcharch armel debian jessie
+fetcharch powerpc ubuntu xenial
+fetcharch arm64 ubuntu xenial
+fetcharch i386 ubuntu xenial
+# fetcharch mips debian stretch
+# fetcharch mipsel debian stretch
 
+echo "armhf armel powerpc arm64 i386 mips mipsel all done"
 # mini debootstrap 
