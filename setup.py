@@ -63,14 +63,12 @@ def _setup_cgc():
         if subprocess.call(['make', '-j'], cwd=AFL_MULTI_CGC_INSTALL_PATH) != 0:
             raise LibError("Unable to make afl-multi-cgc")
 
-def _setup_libs():
-    if not os.path.exists(MULTIARCH_LIBRARY_PATH):
-        if subprocess.call(["./fetchlibs.sh"], cwd=".") != 0:
-            raise LibError("Unable to fetch libraries")
+
 
 data_files = [ ]
 def _datafiles():
     # for each lib export it into data_files
+    os.system("mkdir -p bin/fuzzer-libs")
     for path,_,files in os.walk("bin/fuzzer-libs"):
         libs = [ os.path.join(path, f) for f in files if '.so' in f ]
         if libs:
@@ -120,5 +118,4 @@ setup(
     packages=['shellphish_afl'],
     cmdclass={'build': build, 'develop': develop},
     data_files=data_files,
-    scripts=['fetchlibs.sh'],
 )
