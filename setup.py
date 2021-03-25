@@ -52,7 +52,7 @@ def _setup_cgc():
         if subprocess.call(['make', 'distrib'], cwd=AFL_CGC_INSTALL_PATH) != 0:
             raise LibError("Unable to make afl-cgc")
 
-        if subprocess.call(['sudo make install'], cwd=os.path.join(AFL_CGC_INSTALL_PATH, "qemu_mode")) != 0:
+        if subprocess.call(['make', 'install'], cwd=AFL_CGC_INSTALL_PATH) != 0:
             raise LibError("Unable to build afl-cgc-qemu")
 
     if not os.path.exists(AFL_MULTI_CGC_INSTALL_PATH):
