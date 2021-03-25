@@ -45,14 +45,14 @@ def _setup_other_arch():
 def _setup_cgc():
 
     if not os.path.exists(AFL_CGC_INSTALL_PATH):
-        AFL_CGC_REPO = "https://github.com/shellphish/driller-afl.git"
+        AFL_CGC_REPO = "https://github.com/AFLplusplus/AFLplusplus"
         if subprocess.call(['git', 'clone', AFL_CGC_REPO, AFL_CGC_INSTALL_PATH]) != 0:
             raise LibError("Unable to retrieve afl-cgc")
 
-        if subprocess.call(['make', '-j'], cwd=AFL_CGC_INSTALL_PATH) != 0:
+        if subprocess.call(['make', 'distrib'], cwd=AFL_CGC_INSTALL_PATH) != 0:
             raise LibError("Unable to make afl-cgc")
 
-        if subprocess.call(['./build_qemu_support.sh'], cwd=os.path.join(AFL_CGC_INSTALL_PATH, "qemu_mode")) != 0:
+        if subprocess.call(['sudo make install'], cwd=os.path.join(AFL_CGC_INSTALL_PATH, "qemu_mode")) != 0:
             raise LibError("Unable to build afl-cgc-qemu")
 
     if not os.path.exists(AFL_MULTI_CGC_INSTALL_PATH):
