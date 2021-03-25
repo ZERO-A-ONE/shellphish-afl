@@ -1,7 +1,6 @@
 #!/bin/bash -e
   
 # taken from the QIRA project
-# http://archive.ubuntu.com/ubuntu
 
 sudo apt install debootstrap debian-archive-keyring -y
 
@@ -24,7 +23,7 @@ fetcharch() {
   ARCH="$1"
   DISTRO="$2"
   SUITE="$3"
-  
+	
   echo "$ARCH"
   echo "$DISTRO"
   echo "$SUITE"
@@ -47,11 +46,14 @@ fetcharch() {
 
   if [ $DISTRO == "ubuntu" ]; then
     KEYRING=$UBUNTU_KEYRING
-    MIRRORS="$DEF_MIRROR"
+    MIRRORS="https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/"
+    if [ $ARCH == "i386" ];then
+        MIRRORS="http://cn.archive.ubuntu.com/ubuntu/"
+    fi
     echo "$DEF_MIRROR"
   elif [ $DISTRO == "debian" ]; then
     KEYRING=$DEBIAN_KEYRING
-    MIRRORS="http://ftp.us.debian.org/debian"
+    MIRRORS="http://ftp.cn.debian.org/debian"
   else
     echo "need a distro"
     exit 1
@@ -73,12 +75,13 @@ cd bin/fuzzer-libs
 
 LIBS="libc-bin libstdc++6"
 fetcharch armhf ubuntu $code_name
-#fetcharch armel ubuntu bionic
-#fetcharch powerpc ubuntu bionic
+#fetcharch armel debian strech
+fetcharch powerpc ubuntu $code_name
 fetcharch arm64 ubuntu $code_name
 fetcharch i386 ubuntu $code_name
-# fetcharch mips debian stretch
-# fetcharch mipsel debian stretch
+#fetcharch mips debian stretch
+#fetcharch mipsel debian stretch
+
 
 echo "armhf arm64 i386 all done"
 # mini debootstrap 
