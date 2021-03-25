@@ -23,27 +23,6 @@ AFL_MULTI_CGC_FUZZ  = os.path.join(AFL_MULTI_CGC_INSTALL_PATH)
 
 def _setup_other_arch():
     # revisiting the afl mirrorer repo
-    if not os.path.exists(AFL_UNIX_INSTALL_PATH):
-        AFL_UNIX_REPO = "https://github.com/mirrorer/afl"
-        if subprocess.call(['git', 'clone','--depth=1', AFL_UNIX_REPO, AFL_UNIX_INSTALL_PATH]) != 0:
-            raise LibError("Unable to retrieve afl-unix")
-
-        with open(BUILD_QEMU_PATCH_FILE, "rb") as f:
-            if subprocess.check_call(['patch', '-p0'],stdin=f, cwd=AFL_UNIX_INSTALL_PATH) != 0:
-                raise LibError("Unable to apply patches to qemu build")
-
-        if subprocess.call(['cp',AFL_UNIX_GEN, AFL_UNIX_INSTALL_PATH]) != 0:
-            raise LibError("Build file doesn't exist")
-
-        # patch for qemu to work with ubuntu 18.04 and above
-        if subprocess.check_call(['cp',QEMU_PATCH,AFL_QEMU_MODE_PATCH]) != 0:
-            raise LibError('Patch to work Qemu with Ubuntu 18 not found')
-
-        if subprocess.check_call(['./build.sh'] + SUPPORTED_ARCHES, cwd=AFL_UNIX_INSTALL_PATH) != 0:
-            raise LibError("Unable to build afl-other-arch")
-
-def _setup_cgc():
-
     if not os.path.exists(AFL_CGC_INSTALL_PATH):
         AFL_CGC_REPO = "https://github.com/AFLplusplus/AFLplusplus"
         if subprocess.call(['git', 'clone', AFL_CGC_REPO, AFL_CGC_INSTALL_PATH]) != 0:
@@ -52,8 +31,18 @@ def _setup_cgc():
         if subprocess.call(['make', 'distrib'], cwd=AFL_CGC_INSTALL_PATH) != 0:
             raise LibError("Unable to make afl-cgc")
 
-        #if subprocess.call(['make', 'install'], cwd=AFL_CGC_INSTALL_PATH) != 0:
-            #raise LibError("Unable to build afl-cgc-qemu")
+def _setup_cgc():
+
+    if not os.path.exists(AFL_CGC_INSTALL_PATH):
+        AFL_CGC_REPO = "https://github.com/shellphish/driller-afl.git"
+        if subprocess.call(['git', 'clone', AFL_CGC_REPO, AFL_CGC_INSTALL_PATH]) != 0:
+            raise LibError("Unable to retrieve afl-cgc")
+
+        if subprocess.call(['make', '-j'], cwd=AFL_CGC_INSTALL_PATH) != 0:
+            raise LibError("Unable to make afl-cgc")
+
+        if subprocess.call(['./build_qemu_support.sh'], cwd=os.path.join(AFL_CGC_INSTALL_PATH, "qemu_mode")) != 0:
+            raise LibError("Unable to build afl-cgc-qemu")
 
     if not os.path.exists(AFL_MULTI_CGC_INSTALL_PATH):
         AFL_MULTI_CGC_REPO = "https://github.com/mechaphish/multiafl.git"
