@@ -76,7 +76,7 @@ cd bin/fuzzer-libs
 LIBS="libc-bin libstdc++6"
 fetcharch armhf ubuntu $code_name
 #fetcharch armel debian strech
-fetcharch powerpc ubuntu $code_name
+#fetcharch powerpc ubuntu $code_name
 fetcharch arm64 ubuntu $code_name
 fetcharch i386 ubuntu $code_name
 #fetcharch mips debian stretch
